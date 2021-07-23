@@ -9,13 +9,22 @@ const Board = styled.div`
   background-color: green;
 `;
 
+const ButtonBox = styled.div``;
+const Button = styled.button`
+  width: 100%;
+  height: 60px;
+  background-color: gray;
+`;
+
 const InsertionSort = () => {
   return (
     <InsertionSortContainer>
       <Board>board</Board>
 
-      <button>shuffle</button>
-      <button>sort</button>
+      <ButtonBox>
+        <Button>shuffle</Button>
+        <Button>sort</Button>
+      </ButtonBox>
     </InsertionSortContainer>
   );
 };
