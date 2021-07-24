@@ -17,4 +17,23 @@
 - for ts
   npm i --save-dev @types/styled-components
 
-# set Layout with css(styled components)
+# #3 set Layout with css(styled components)
+
+# #4 install lodash
+
+- 함수형 프로그래밍을 위해 도움을 주는 라이브러리
+  (여러 작업을하는 만들어진 함수들을 제공함)
+
+- npm i --save lodash
+- for ts
+  <!-- type정보는 devDependencies에 들어감 런타임땐 필요없고 개발모드에서만 필요하기때문 -->
+
+  npm i --save-dev @types/lodash
+
+  # lodash(range)
+
+  - 배열안에 지정한 범위만큼 숫자를 나열해줌
+
+# lodash(shuffle)
+
+- 배열을 무작위로 섞어주는 함수

@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import { range, shuffle } from 'lodash';
 
 const InsertionSortContainer = styled.div``;
 
@@ -21,8 +22,10 @@ const Button = styled.button`
   font-size: 40px;
 `;
 
+const getArr = () => shuffle(range(1, 11));
+
 const InsertionSort = () => {
-  const arr = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+  const arr = getArr();
 
   return (
     <InsertionSortContainer>
