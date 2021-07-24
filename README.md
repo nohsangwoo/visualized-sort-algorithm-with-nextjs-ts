@@ -2,7 +2,7 @@
 
 - 간단한 알고리즘 시각화 프로젝트를 구현하며 nextjs 적응
 
-# styled component 적용
+# styled components 적용
 
 - styled components 설치
   npm install styled components
@@ -16,3 +16,5 @@
 
 - for ts
   npm i --save-dev @types/styled-components
+
+# set Layout with css(styled components)
