@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import { range, shuffle } from 'lodash';
 
@@ -25,14 +25,20 @@ const Button = styled.button`
 const getArr = () => shuffle(range(1, 11));
 
 const InsertionSort = () => {
-  const arr = getArr();
+  const [arr, setArr] = useState(getArr());
+
+  const handleShuffle = () => {
+    setArr(prev => {
+      return shuffle(prev);
+    });
+  };
 
   return (
     <InsertionSortContainer>
       <Board>{arr.join(',')}</Board>
 
       <ButtonBox>
-        <Button>shuffle</Button>
+        <Button onClick={handleShuffle}>shuffle</Button>
         <Button>sort</Button>
       </ButtonBox>
     </InsertionSortContainer>
