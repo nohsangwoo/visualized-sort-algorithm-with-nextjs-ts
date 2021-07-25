@@ -49,3 +49,7 @@
 # #8 division Bar part
 
 - 모듈화
+
+# #9 apply async await
+
+- setTimeout을 이용하여 비동기 처리로 지연을 눈에 띄게 줌으로 정렬되는 과정을 마치 애니메이션처럼 보여줌

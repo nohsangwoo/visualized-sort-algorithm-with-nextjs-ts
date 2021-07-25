@@ -33,15 +33,28 @@ const swap = (arr: number[], a: number, b: number) => {
   arr[b] = temp;
 };
 
-const sort = (arr: number[]) => {
+const delaySetArr = (
+  arr: number[],
+  setArr: (value: React.SetStateAction<number[]>) => any
+) => {
+  return new Promise(resolve => {
+    setArr([...arr]);
+    setTimeout(() => resolve(resolve), 10);
+  });
+};
+
+const sort = async (
+  arr: number[],
+  setArr: (value: React.SetStateAction<number[]>) => any
+) => {
   // https://en.wikipedia.org/wiki/Insertion_sort
   let i = 1;
   while (i < arr.length) {
-    setTimeout(function () {}, 500);
     let j = i;
     while (j > 0 && arr[j - 1] > arr[j]) {
       // swap A[j] and A[j-1]
       swap(arr, j, j - 1);
+      await delaySetArr(arr, setArr);
       j = j - 1;
     }
     i = i + 1;
@@ -86,21 +99,21 @@ const BarPresent = ({ arr }: Props) => {
 };
 
 // main
-const InsertionSort = () => {
+const InsertionSort = (): JSX.Element => {
   const [arr, setArr] = useState<number[]>([]);
 
   const handleShuffle = () => {
-    setArr(prev => {
-      // return shuffle(prev);
-      console.log(prev);
-      return getArr();
-    });
+    setArr(getArr());
   };
 
-  const handleSort = (arr: number[]) => {
+  const handleSort = async (arr: number[]) => {
     const sorted = [...arr];
-    sort(sorted);
-    setArr(sorted);
+    try {
+      await sort(sorted, setArr);
+      alert('Sorted!');
+    } catch (e) {
+      console.log(e.message);
+    }
   };
 
   useEffect(() => {
