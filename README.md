@@ -37,3 +37,9 @@
 # lodash(shuffle)
 
 - 배열을 무작위로 섞어주는 함수
+
+# #5 shuffle with useState
+
+# #6 Insertion Sort
+
+- ref: https://en.wikipedia.org/wiki/Insertion_sort
