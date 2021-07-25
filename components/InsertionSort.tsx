@@ -57,10 +57,35 @@ const Bar = styled.div<{
   width: ${props => `${props.widthValue - 1}px`};
   height: ${props => `${props.heightValue}px`};
   transform: translateX(${props => `${props.transformXValue}px`});
-  /* border: 1px solid red; */
   background-color: black;
 `;
 
+type Props = {
+  arr: number[];
+};
+
+// 숫자 배열을 막대 모양으로 렌더링해주는 함수
+const BarPresent = ({ arr }: Props) => {
+  return (
+    <>
+      {arr.map((value: number, index: number) => {
+        const heightValue = value * 10;
+        const widthValue = 20;
+        const transformXValue = index * widthValue;
+        return (
+          <Bar
+            key={index}
+            heightValue={heightValue}
+            widthValue={widthValue}
+            transformXValue={transformXValue}
+          />
+        );
+      })}
+    </>
+  );
+};
+
+// main
 const InsertionSort = () => {
   const [arr, setArr] = useState<number[]>([]);
 
@@ -82,24 +107,10 @@ const InsertionSort = () => {
     setArr(getArr());
   }, []);
 
-  // useEffect(() => {}, [arr]);
-
   return (
     <InsertionSortContainer>
       <Board>
-        {arr.map((value: number, index: number) => {
-          const heightValue = value * 10;
-          const widthValue = 20;
-          const transformXValue = index * widthValue;
-          return (
-            <Bar
-              key={index}
-              heightValue={heightValue}
-              widthValue={widthValue}
-              transformXValue={transformXValue}
-            />
-          );
-        })}
+        <BarPresent arr={arr} />
       </Board>
 
       <ButtonBox>

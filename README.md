@@ -45,3 +45,7 @@
 - ref: https://en.wikipedia.org/wiki/Insertion_sort
 
 # #7 show BAR interface with CSS
+
+# #8 division Bar part
+
+- 모듈화
