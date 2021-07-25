@@ -43,3 +43,5 @@
 # #6 Insertion Sort
 
 - ref: https://en.wikipedia.org/wiki/Insertion_sort
+
+# #7 show BAR interface with CSS
