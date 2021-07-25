@@ -1,10 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, memo } from 'react';
 import styled, { css } from 'styled-components';
 import { range, shuffle } from 'lodash';
 
 const InsertionSortContainer = styled.div``;
 
-const Board = styled.div`
+const BoardWrapper = styled.div`
   width: 100%;
   height: ${`${31 * 10}px`};
   background-color: green;
@@ -106,15 +106,25 @@ const Bar = styled.div<{
   background-color: black;
 `;
 
-type Props = {
+type PropsBarPresent = {
   arr: number[];
 };
 
+// 이전props와 현재props가 같다면 리렌더링 하지 않겠다는 의미
+const areArrEqual = (
+  prevProps: PropsBarPresent,
+  currentProps: PropsBarPresent
+) => {
+  return prevProps.arr === currentProps.arr;
+};
+
 // 숫자 배열을 막대 모양으로 렌더링해주는 component
-const BarPresent = ({ arr }: Props) => {
+const BarPresent = ({ arr }: PropsBarPresent) => {
   return (
-    <>
+    <BoardWrapper>
       {arr.map((value: number, index: number) => {
+        console.log('board rendered');
+
         const heightValue = value * 10;
         const widthValue = 20;
         const transformXValue = index * widthValue;
@@ -127,9 +137,11 @@ const BarPresent = ({ arr }: Props) => {
           />
         );
       })}
-    </>
+    </BoardWrapper>
   );
 };
+
+const MemorizedBarPresent = memo(BarPresent, areArrEqual);
 
 // main
 const InsertionSort = (): JSX.Element => {
@@ -138,6 +150,7 @@ const InsertionSort = (): JSX.Element => {
   const [idxJ, setIdxJ] = useState<number>(1);
   const [duration, setDuration] = useState<number>(400);
   const [isRunning, setIsRunning] = useState<boolean>(false);
+  const [onOff, setOnOff] = useState<boolean>(false);
 
   const handleShuffle = () => {
     setIdxI(1);
@@ -156,15 +169,18 @@ const InsertionSort = (): JSX.Element => {
     }
   };
 
+  const onOffFunction = () => {
+    setOnOff(prev => !prev);
+  };
+
   useEffect(() => {
     setArr(getArr());
   }, []);
 
   return (
     <InsertionSortContainer>
-      <Board>
-        <BarPresent arr={arr} />
-      </Board>
+      <MemorizedBarPresent arr={arr} />
+
       <Index
         index={'i'}
         style={{ transform: `translateX(${idxI * 20}px)` }}
@@ -181,6 +197,7 @@ const InsertionSort = (): JSX.Element => {
       </Index>
 
       <ButtonBox>
+        <Button onClick={onOffFunction}>{onOff ? 'on' : 'off'}</Button>
         {!isRunning && <Button onClick={handleShuffle}>shuffle</Button>}
         {!isRunning && <Button onClick={() => handleSort(arr)}>sort</Button>}
         {isRunning && <RunningState>Running...</RunningState>}

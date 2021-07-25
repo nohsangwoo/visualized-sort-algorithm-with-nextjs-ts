@@ -61,3 +61,7 @@
 # #11 code refactoring
 
 - 코드 정리
+
+# #12 apply memo for BarPresent
+
+- 필요없는 리렌더링 방지
