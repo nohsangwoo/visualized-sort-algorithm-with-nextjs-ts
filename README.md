@@ -57,3 +57,7 @@
 # #10 display to state detail..
 
 - 보다 자세하게 정렬과정을 보여주기위해 현재 인덱싱 상태 및 동작중 버튼 제어 못하게 설정
+
+# #11 code refactoring
+
+- 코드 정리

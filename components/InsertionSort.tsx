@@ -6,7 +6,7 @@ const InsertionSortContainer = styled.div``;
 
 const Board = styled.div`
   width: 100%;
-  height: 200px;
+  height: ${`${31 * 10}px`};
   background-color: green;
   color: white;
   font-size: 40px;
@@ -32,7 +32,6 @@ const Index = styled.div<{ index: string; translateXValue: number }>`
   width: 20px;
   background-color: blue;
   color: white;
-  /* transform: translateX(40px); */
   ${props =>
     props.index === 'i'
       ? css`
@@ -53,8 +52,10 @@ const RunningState = styled.div`
 
 // end of styled components
 
+const DURATION = 50;
 const SIZE = 30;
 const getArr = () => shuffle(range(1, SIZE + 1));
+type TSetState = React.Dispatch<React.SetStateAction<any>>;
 
 const swap = (arr: number[], a: number, b: number) => {
   const temp = arr[a];
@@ -62,37 +63,34 @@ const swap = (arr: number[], a: number, b: number) => {
   arr[b] = temp;
 };
 
-type TSetArr = (value: React.SetStateAction<number[]>) => any;
-type TSetPosition = React.Dispatch<React.SetStateAction<number>>;
-
-const delaySetArr = (arr: number[], setArr: TSetArr) => {
+const delayAndSetState = (value: any, setValue: TSetState) => {
   return new Promise(resolve => {
-    setArr([...arr]);
-    setTimeout(() => resolve(resolve), 100);
+    setValue(value);
+    setTimeout(() => resolve(resolve), DURATION);
   });
 };
 
 const sort = async (
   arr: number[],
-  setArr: TSetArr,
-  setPositionI: TSetPosition,
-  setPositionJ: TSetPosition
+  setArr: TSetState,
+  setIdxI: TSetState,
+  setIdxJ: TSetState
 ) => {
   // https://en.wikipedia.org/wiki/Insertion_sort
 
   let i = 1;
   while (i < arr.length) {
     let j = i;
-    setPositionI(j);
+    await delayAndSetState(j, setIdxJ);
     while (j > 0 && arr[j - 1] > arr[j]) {
       // swap A[j] and A[j-1]
       swap(arr, j, j - 1);
-      await delaySetArr(arr, setArr);
+      await delayAndSetState([...arr], setArr);
       j = j - 1;
-      setPositionJ(j);
+      await delayAndSetState(j, setIdxJ);
     }
     i = i + 1;
-    setPositionI(i);
+    await delayAndSetState(i, setIdxI);
   }
 };
 
@@ -112,7 +110,7 @@ type Props = {
   arr: number[];
 };
 
-// 숫자 배열을 막대 모양으로 렌더링해주는 함수
+// 숫자 배열을 막대 모양으로 렌더링해주는 component
 const BarPresent = ({ arr }: Props) => {
   return (
     <>
@@ -136,19 +134,22 @@ const BarPresent = ({ arr }: Props) => {
 // main
 const InsertionSort = (): JSX.Element => {
   const [arr, setArr] = useState<number[]>([]);
-  const [positionI, setPositionI] = useState<number>(1);
-  const [positionJ, setPositionJ] = useState<number>(1);
+  const [idxI, setIdxI] = useState<number>(1);
+  const [idxJ, setIdxJ] = useState<number>(1);
+  const [duration, setDuration] = useState<number>(400);
   const [isRunning, setIsRunning] = useState<boolean>(false);
 
   const handleShuffle = () => {
+    setIdxI(1);
+    setIdxJ(1);
     setArr(getArr());
   };
 
   const handleSort = async (arr: number[]) => {
     setIsRunning(true);
-    const sorted = [...arr];
     try {
-      await sort(sorted, setArr, setPositionI, setPositionJ);
+      await sort(arr, setArr, setIdxI, setIdxJ);
+      setIsRunning(false);
       alert('Sorted!');
     } catch (e) {
       console.log(e.message);
@@ -166,15 +167,15 @@ const InsertionSort = (): JSX.Element => {
       </Board>
       <Index
         index={'i'}
-        style={{ transform: `translateX(${positionI * 20}px)` }}
-        translateXValue={positionI}
+        style={{ transform: `translateX(${idxI * 20}px)` }}
+        translateXValue={idxI}
       >
         i
       </Index>
       <Index
         index={'j'}
-        style={{ transform: `translateX(${positionJ * 20}px)` }}
-        translateXValue={positionJ}
+        style={{ transform: `translateX(${idxJ * 20}px)` }}
+        translateXValue={idxJ}
       >
         j
       </Index>
